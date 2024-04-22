@@ -1,4 +1,4 @@
- 
+package ConnectFour; 
 
 /**
  * Tic-Tac-Toe state variables.
@@ -9,34 +9,57 @@ public class State
     private int whoseMove = Constants.X;
     private String xName = "";
     private String oName = "";
-    private int[][] board = new int[Constants.BOARD_SIZE][Constants.BOARD_SIZE];
+    private int[][] board = new int[Constants.BOARD_ROW][Constants.BOARD_COL];
 
     public boolean isWinner() {
-        // You will write this code!!
         int total; 
-        for (int row=0; row<Constants.BOARD_SIZE; row++) {
-            total = getBoardCell(row, 0) +
+        for (int row=0; row<Constants.BOARD_ROW; row++) {
+            total = getBoardCell(row , 0) +
             getBoardCell (row, 1) +
-            getBoardCell (row,2);
-            if (total ==-3||total == 3) return true;
+            getBoardCell (row, 2) +
+            getBoardCell (row, 3);
+            if (total ==-4||total == 4) return true;
         }
-        for (int col =0; col<Constants.BOARD_SIZE; col++) {
+        for (int col =0; col<Constants.BOARD_COL; col++) {
             total = getBoardCell (0,col) + 
             getBoardCell (1,col) +
-            getBoardCell (2,col);
-            if (total==-3||total ==3) return true;
+            getBoardCell (2,col) +
+            getBoardCell (3, col);
+            if (total==-4||total ==4) return true;
         }
-        total = getBoardCell (0,0) + getBoardCell (1,1) + getBoardCell(2,2);
-        if (total == -3 || total ==3) return true;
-        total = getBoardCell (2,0) + getBoardCell(1,1) + getBoardCell (0,2);
-        if (total == -3 || total ==3) return true;
+        for (int row = 0; row <= Constants.BOARD_ROW - 4; row++) {
+            for (int col = 0; col <= Constants.BOARD_COL - 4; col++) {
+                if (checkFourInARow (row, col, 1, 1) || checkFourInARow(row, col + 3, 1, -1)) {
+                    return true;
+                }
+            }
+        }
+
         return false;
+    }
+
+    private boolean checkFourInARow(int Row, int Col, int rowIncrement, int colIncrement) {
+        int player = getBoardCell(Row, Col);
+        if (player == Constants.BLANK) {
+            return false;
+        }
+
+        for (int i = 1; i < 4; i++) {
+            int row=Row + i * rowIncrement;
+            int col = Col + i* colIncrement;
+            int value = getBoardCell(row, col);
+            if (value != player){
+                return false;
+            }
+        }
+
+        return true;
     }
 
     public boolean isTie() {
         // You will write this code too!!
-        for (int row=0; row<Constants.BOARD_SIZE; row++) {
-            for (int col=0; col<Constants.BOARD_SIZE; col++) {
+        for (int row=0; row<Constants.BOARD_ROW; row++) {
+            for (int col=0; col<Constants.BOARD_COL; col++) {
                 if (getBoardCell(row,col )== Constants.BLANK) {
                     return false;
                 }
@@ -86,8 +109,8 @@ public class State
     }
 
     public void clearBoard(){
-        for (int row = 0; row <3; row++){
-            for (int col = 0; col <3; col++){
+        for (int row = 0; row <6; row++){
+            for (int col = 0; col <7; col++){
                 setBoardCell(row,col,Constants.BLANK);
             }
         }

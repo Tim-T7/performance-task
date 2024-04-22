@@ -1,4 +1,4 @@
- 
+package ConnectFour; 
 
 public class EventLoop {
 
@@ -7,7 +7,12 @@ public class EventLoop {
     UI ui = new UI();
     int row, col;
 
-    public void eventLoop() {
+    public static void main (String[]args){
+        EventLoop eventLoop = new EventLoop();
+        eventLoop.run();
+    }
+
+    public void run() {
         while (state.getGameState() != Constants.QUIT_PROGRAM) {
             int gameState = state.getGameState();
             if (gameState == Constants.STANDBY) {
@@ -77,7 +82,7 @@ public class EventLoop {
 
             } else if (gameState == Constants.GAME_OVER) {
                 if (ui.startNewGame()) {
-                    
+
                     state.setGameState(Constants.STANDBY);
                 } else {
                     state.setGameState(Constants.QUIT_PROGRAM);
@@ -86,3 +91,4 @@ public class EventLoop {
         }
     }
 }
+

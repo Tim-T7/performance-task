@@ -1,10 +1,10 @@
- 
+package ConnectFour;
 import java.util.Scanner;
 
 /**
  * UI class
  */
-public class UI
+public class UI 
 {
 
     Scanner scanner;
@@ -28,8 +28,8 @@ public class UI
     }
 
     public boolean isLegalMove(State state, int row, int col) {
-        return 1 <= row && row <= Constants.BOARD_SIZE &&
-        1 <= col && col <= Constants.BOARD_SIZE &&
+        return 1 <= row && row <= Constants.BOARD_ROW &&
+        1 <= col && col <= Constants.BOARD_COL &&
         state.getBoardCell(row-1, col-1) == Constants.BLANK;
     }
 
@@ -46,7 +46,7 @@ public class UI
             System.out.printf(Constants.GET_ROW_MOVE, getXOrO(whoseMove), getPlayerName(whoseMove, xName, oName));
             try {
                 row = scanner.nextInt();
-                if (row < 1 || row > 3) {
+                if (row < 1 || row > 6) {
                     printInvalidRowOrColumn();
                     System.out.println();
                     scanner.nextLine();
@@ -63,11 +63,11 @@ public class UI
 
     public int getMoveCol(int whoseMove, String xName, String oName) {
         int col =0;
-         while (true) {
+        while (true) {
             System.out.printf(Constants.GET_COL_MOVE, getXOrO(whoseMove), getPlayerName(whoseMove, xName, oName));
             try {
                 col = scanner.nextInt();
-                if (col < 1 || col > 3) {
+                if (col < 1 || col > 7) {
                     printInvalidRowOrColumn();
                     System.out.println();
                     scanner.nextLine();
@@ -94,8 +94,10 @@ public class UI
 
     public void printBoard(State state) {
         System.out.println(Constants.DIVIDER_STRING);
-        for (int row = 0; row < Constants.BOARD_SIZE; row++) {
-            System.out.printf(Constants.BOARD_STRING, getXOrO(state.getBoardCell(row, 0)), getXOrO(state.getBoardCell(row, 1)), getXOrO(state.getBoardCell(row, 2)));
+        for (int row = 0; row < Constants.BOARD_ROW; row++) {
+            for (int col = 0; col < Constants.BOARD_COL; col++) {
+                System.out.printf(Constants.BOARD_STRING, getXOrO(state.getBoardCell(row,col)));
+            }
             System.out.println();
             System.out.println(Constants.DIVIDER_STRING);
         }
@@ -124,3 +126,4 @@ public class UI
     }
 
 }
+
